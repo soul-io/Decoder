@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Player Questionnaire</title>
+</head>
+<body>
+  <h2>Submit Your Info</h2>
+  <form id="playerForm">
+    <label>Name:</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>Age:</label><br>
+    <input type="number" name="age" required><br><br>
+
+    <label>Favorite Team:</label><br>
+    <input type="text" name="team"><br><br>
+
+    <label>Position:</label><br>
+    <select name="position">
+      <option value="Offense">Offense</option>
+      <option value="Defense">Defense</option>
+      <option value="Goalie">Goalie</option>
+    </select><br><br>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('playerForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      const response = await fetch('https://soulos.app.n8n.cloud/webhook/decoder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        alert('Thanks for submitting!');
+        form.reset();
+      } else {
+        alert('Something went wrong.');
+      }
+    });
+  </script>
+</body>
+</html>
